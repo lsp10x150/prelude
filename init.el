@@ -234,8 +234,22 @@ by Prelude.")
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-(setq org-agenda-files (append
-                        (file-expand-wildcards "~/dox/org/*.org")))
+(package-install 'flycheck)
+(global-flycheck-mode)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+(set-face-attribute 'default nil :font "Monospace" :height 160)
+
+
+;; use to use-package
+(require 'flycheck-color-mode-line)
+(eval-after-load "flycheck"
+  '(add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
+
+;; use to use-package
+(require 'flycheck-pos-tip)
+(with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode))
 
 
 
