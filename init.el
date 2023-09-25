@@ -162,4 +162,81 @@ by Prelude.")
  ;; greet the use with some useful tip
  (run-at-time 5 nil 'prelude-tip-of-the-day))
 
-;;; init.el ends here
+
+;; Emacs Prelude ends here
+
+
+(use-package ef-themes
+  :if window-system
+  :ensure t
+  :config
+  ;; Enable the theme
+  (load-theme 'ef-winter t))
+
+(add-to-list 'default-frame-alist
+             '(font . "JetBrains Mono-24"))
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner "~/.emacs.d/x.png")
+  (setq dashboard-banner-logo-title "lsp10"))
+(setq inhibit-startup-screen t)
+
+(use-package mood-line
+  :ensure t
+  :if window-system
+  :init
+  (mood-line-mode))
+
+(use-package treemacs
+  :ensure t
+  :defer t
+  :bind
+  (("C-c t" . treemacs))
+  :config
+  (setq treemacs-width 30)
+  (setq-local mode-line-format nil))
+
+(use-package highlight-indent-guides
+  :ensure t
+  :defer t
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'fill)
+  (setq highlight-indent-guides-responsive 'top))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (setq lsp-headerline-breadcrumb-enable nil))
+
+(use-package lsp-ui
+  :ensure t
+  :defer t)
+
+(use-package dap-mode
+  :after lsp-mode
+  :ensure t
+  :defer t)
+
+(use-package org-bullets
+  :ensure t
+  :defer t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(setq org-agenda-files (append
+                        (file-expand-wildcards "~/dox/org/*.org")))
+
+
+
+;;; Init.el ends here
