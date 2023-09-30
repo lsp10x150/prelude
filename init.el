@@ -171,10 +171,11 @@ by Prelude.")
   :ensure t
   :config
   ;; Enable the theme
-  (load-theme 'ef-winter t))
+  (load-theme 'ef-elea-dark t)
 
-(add-to-list 'default-frame-alist
-             '(font . "JetBrains Mono-24"))
+  (add-to-list 'default-frame-alist
+               '(font . "Ubuntu Mono")))
+(set-face-attribute 'default nil :height 180)
 
 (use-package dashboard
   :ensure t
@@ -199,13 +200,13 @@ by Prelude.")
   (setq treemacs-width 30)
   (setq-local mode-line-format nil))
 
-(use-package highlight-indent-guides
-  :ensure t
-  :defer t
-  :hook (prog-mode . highlight-indent-guides-mode)
-  :config
-  (setq highlight-indent-guides-method 'fill)
-  (setq highlight-indent-guides-responsive 'top))
+(setq highlight-indent-guides-method 'bitmap
+      (use-package highlight-indent-guides
+        :ensure t
+        :defer t
+        :hook (prog-mode . highlight-indent-guides-mode)
+        :config
+        (setq highlight-indent-guides-responsive 'top)))
 
 (use-package treemacs-projectile
   :after (treemacs projectile)
@@ -215,7 +216,7 @@ by Prelude.")
   :ensure t
   :defer t
   :init
-  (setq lsp-keymap-prefix "C-c l")
+  (setq lnsp-keymap-prefix "C-c l")
   :config
   (setq lsp-headerline-breadcrumb-enable nil))
 
@@ -235,8 +236,8 @@ by Prelude.")
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (setq org-agenda-files (append
-                        (file-expand-wildcards "~/dox/org/*.org")))
-
-
+                        (file-expand-wildcards "~/orgs/personal/*.org")))
+(setq org-agenda-files (append
+                        (file-expand-wildcards "~/orgs/work/*.org")))
 
 ;;; Init.el ends here
