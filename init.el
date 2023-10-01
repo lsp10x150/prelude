@@ -219,6 +219,9 @@ by Prelude.")
   :config
   (setq lsp-headerline-breadcrumb-enable nil))
 
+(add-hook 'c-mode-hook #'lsp)
+(add-hook 'c++-mode-hook #'lsp)
+
 (use-package lsp-ui
   :ensure t
   :defer t)
@@ -234,12 +237,11 @@ by Prelude.")
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-(package-install 'flycheck)
-(global-flycheck-mode)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
 
 (set-face-attribute 'default nil :font "Monospace" :height 160)
-
 
 ;; use to use-package
 (require 'flycheck-color-mode-line)
@@ -251,6 +253,26 @@ by Prelude.")
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode))
 
+;; ggtags
+(use-package ggtags
+  :ensure t
+  :config
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+                (ggtags-mode 1))))
+  )
+
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  )
+
+(global-set-key (kbd "M-[") 'tab-bar-history-back)
+(global-set-key (kbd "M-]") 'tab-bar-history-forward)
+(global-set-key (kbd "C-x q") 'previous-buffer)
+(global-set-key (kbd "C-x w") 'next-buffer)
 
 
 ;;; Init.el ends here
